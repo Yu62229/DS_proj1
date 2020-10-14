@@ -308,9 +308,8 @@ int main (int argc, char* argv[]) {
     output.open("108062229_proj1.final");
     for(int j = tetris.row - 1; j >= 0; --j) {
         for(int i = 0; i < tetris.col; ++i) {
-            output<<final_puz[i][j]<<" ";
+            output<<final_puz[i][j]<<" \n"[i == tetris.col - 1];
         }
-        output<<"\n";
     }
 
     input.close();
