@@ -38,7 +38,7 @@ class game {
     public:
         list<int> puzzle[40];
         int highest[40] = {0};
-        int n_row[15] = {0};
+        int n_row[20] = {0};
         int row = 0, col = 0;
 
         game(int m, int n): row(m), col(n) {
@@ -89,14 +89,15 @@ class game {
             }
         };
         void del() {
-            for(int i = 0; i < row; ++i) {
+            for(int i = 0; i < row + 3; ++i) {
                 if(n_row[i] == col) {
                     //cout<<"i: "<<i<<endl;
                     
-                    for(int j = i; j < row - 1; ++j) n_row[j] = n_row[j + 1];
-                    n_row[row - 1] = 0;
-                    for(int i = 0; i < col; ++i) highest[i]--;
-                    
+                    for(int j = i; j < row + 2; ++j) n_row[j] = n_row[j + 1];
+                    n_row[row + 2] = 0;
+                    if(n_row[row - 1] == 0) {
+                        for(int i = 0; i < col; ++i) highest[i]--;
+                    }
                     for(int j = 0; j < col; ++j) {
                         list<int>::iterator it = find(puzzle[j].begin(), puzzle[j].end(), i);
                         it = puzzle[j].erase(it);
@@ -106,12 +107,6 @@ class game {
                     
                 }
             }
-        }
-        bool gameover() {
-            for(int i = 0; i < col; i++) {
-                if(*puzzle[i].end() >= row) return 1;
-            }
-            return 0;
         }
 };
 
@@ -287,11 +282,6 @@ int main (int argc, char* argv[]) {
         tetris.place(target, r_finalf, col);
         //cout<<"Y\n";
         tetris.del();
-        int f = tetris.gameover();
-        if(f) {
-            cout<<"Out of upper edge!!\n";
-            return 1;
-        }
 
         input>>op;
     }
